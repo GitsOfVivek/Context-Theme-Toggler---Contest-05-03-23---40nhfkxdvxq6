@@ -10,7 +10,8 @@ const ThemeToggleButton = () => {
 				className={'btn ' + `btn-${theme}`}
 				id="themed-button"
 				onClick={() => {
-					updateContext('theme', 'dark');
+					const val = theme === 'light' ? 'dark' : 'light';
+					updateContext('theme', val);
 				}}>
 				Switch to dark theme
 			</button>
