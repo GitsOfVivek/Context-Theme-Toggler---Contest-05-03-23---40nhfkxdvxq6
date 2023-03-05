@@ -1,7 +1,36 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from './ThemeProvider';
 
 const LocalThemedBox = () => {
-	const [theme, setTheme] = useState('light');
+	const { theme } = useContext(ThemeContext);
+
+	const [localTheme, setLocalTheme] = useState(theme);
+
+	useEffect(() => {
+		setLocalTheme(theme);
+		let ini =
+			theme === 'dark'
+				? 'Toggle local theme to light'
+				: 'Toggle local theme to dark';
+		setLocalBtn(ini);
+	}, [theme]);
+
+	const initial =
+		localTheme === 'dark'
+			? 'Toggle local theme to light'
+			: 'Toggle local theme to dark';
+
+	const [localBtn, setLocalBtn] = useState(initial);
+
+	let localThemefn = () => {
+		if (localBtn === 'Toggle local theme to dark') {
+			setLocalTheme('dark');
+			setLocalBtn('Toggle local theme to light');
+		} else {
+			setLocalTheme('light');
+			setLocalBtn('Toggle local theme to dark');
+		}
+	};
 	return (
 		<div
 			style={{
@@ -10,15 +39,16 @@ const LocalThemedBox = () => {
 				border: '2px solid green',
 			}}
 			id="local-themed-box"
-			className={`txt-${theme} bg-${theme}`}>
+			className={'bg-' + localTheme}>
+			{/* Write code below this line */}
+			<p id="local-themed-text-container" className={'txt-' + localTheme}>
+				hello
+			</p>
 			<button
-				className={'btn ' + `btn-${theme}`}
-				id="themed-button"
-				onClick={() => {
-					const val = theme === 'light' ? 'dark' : 'light';
-					setTheme(val);
-				}}>
-				Switch to dark theme
+				id="local-theme-toggler"
+				onClick={localThemefn}
+				className={`btn btn-${localTheme} txt-${localTheme}`}>
+				{localBtn}
 			</button>
 		</div>
 	);
